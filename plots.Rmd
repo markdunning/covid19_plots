@@ -17,9 +17,17 @@ library(tidyverse)
 ## Analysis of COVID-19
 
 
+Download the latest file
+
 ```{r}
+download.file("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv",destfile = "time_series_covid19_confirmed_global.csv")
+```
+
+
+```{r}
+covid <- read_csv("time_series_covid19_confirmed_global.csv")
 countries <- c("China","Italy","US","Spain","Germany","Iran","France","Switzerland","United Kingdom","Korea, South","Netherlands","Austria","Belgium","Canada","Norway","Portugal","Brazil","Sweden","Israel","Turkey")
-read_csv("csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv") %>% 
+read_csv("time_series_covid19_confirmed_global.csv") %>% 
 select(contains("Country"), 5:ncol(covid)) %>% 
   tidyr::gather(Date, Cases, -1) %>% 
   rename(Country = `Country/Region`) %>% 
