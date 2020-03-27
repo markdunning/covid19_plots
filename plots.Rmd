@@ -32,12 +32,13 @@ select(contains("Country"), 5:ncol(covid)) %>%
   tidyr::gather(Date, Cases, -1) %>% 
   rename(Country = `Country/Region`) %>% 
   mutate(Date = lubridate::mdy(Date)) %>% 
-  group_by(Country, Date) %>% 
+  group_by(Date,Country) %>% 
   summarise(Cases = sum(Cases)) %>% 
+  ungroup %>% 
+  mutate(NewCases = Cases - dplyr::lag(Cases,default = 0)) %>% 
   filter(Country %in% countries) %>% 
-  mutate(Cases = pmin(Cases,5000)) %>% 
-
-  ggplot(aes(x = Date, y = fct_relevel(Country,rev(countries)), fill= Cases)) + geom_tile() + theme(axis.text.x = element_text(angle=90))
+  mutate(NewCases = pmin(NewCases,5000)) %>% 
+  ggplot(aes(x = Date, y = fct_relevel(Country,rev(countries)), fill= NewCases)) + geom_tile() + theme(axis.text.x = element_text(angle=90))
 ```
 
 ```{r}
