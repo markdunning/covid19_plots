@@ -30,8 +30,3 @@ select(contains("Country"), 5:ncol(covid)) %>%
   ggplot(aes(x = Date, y = fct_relevel(Country,rev(countries)), fill= Cases)) + geom_tile()
 ```
 
-```{r}
-library(RColorBrewer)
-display.brewer.all()
-```
-
